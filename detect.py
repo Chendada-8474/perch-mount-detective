@@ -163,6 +163,7 @@ def detect_task(task: Task):
     if res.status_code != 200:
         task.tag_as_error()
         logging.error("%s error when post detected media" % task.basename)
+        logging.error("server message: %s" % res.text)
         return
 
     res = requests.post(
@@ -174,6 +175,7 @@ def detect_task(task: Task):
     if res.status_code != 200:
         task.tag_as_error()
         logging.error("%s error when post empty media" % task.basename)
+        logging.error("server message: %s" % res.text)
         return
 
     task.tag_as_detected()
