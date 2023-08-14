@@ -154,17 +154,27 @@ def detect_task(task: Task):
     detected = detected_images + detected_videos
     empty = empty_images + empty_videos
 
-    requests.post(
+    res = requests.post(
         config.HOST + "/api/section/%s/detected_media" % task.section,
         data=json.dumps({"media": detected}),
         headers=headers,
     )
 
-    requests.post(
+    if res.status_code != 200:
+        task.tag_as_error()
+        logging.error("%s error when post detected media" % task.basename)
+        return
+
+    res = requests.post(
         config.HOST + "/api/section/%s/empty_media" % task.section,
         data=json.dumps({"media": empty}),
         headers=headers,
     )
+
+    if res.status_code != 200:
+        task.tag_as_error()
+        logging.error("%s error when post empty media" % task.basename)
+        return
 
     task.tag_as_detected()
 

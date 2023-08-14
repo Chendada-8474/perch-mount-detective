@@ -21,9 +21,16 @@ class Task:
         return media
 
     def tag_as_detected(self):
-        file_name = os.path.basename(self.path)
-        des_path = os.path.join(config.DETECTED_TASK_DIR, file_name)
+        des_path = os.path.join(config.DETECTED_TASK_DIR, self.basename)
         os.rename(self.path, des_path)
+
+    def tag_as_error(self):
+        des_path = os.path.join(config.ERROR_TASK_DIR, self.basename)
+        os.rename(self.path, des_path)
+
+    @property
+    def basename(self):
+        return os.path.basename(self.path)
 
     @property
     def section(self):

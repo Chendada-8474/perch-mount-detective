@@ -1,5 +1,7 @@
 TASK_DIR = "D:/coding/demo_nas/task"
 DETECTED_TASK_DIR = "D:/coding/demo_nas/detected_task"
+ERROR_TASK_DIR = "D:/coding/demo_nas/error_task"
+
 DETECTIVE_MODEL_PATH = (
     "D:/coding/python/perch-mount-detective/model/custom_detectivekite.pt"
 )
