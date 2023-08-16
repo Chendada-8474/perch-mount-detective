@@ -41,11 +41,11 @@ def collate_fn(batch):
 def detect_image_task(image_loader):
     detected = []
     empty = []
-    for imgs, metas in image_loader:
+    for imgs, metas in tqdm(image_loader):
         imgs = [T.ToPILImage()(img) for img in imgs]
         results = predict(imgs)
 
-        for i, result in enumerate(tqdm(results)):
+        for i, result in enumerate(results):
             h, w = metas["height"][i].item(), metas["width"][i].item()
 
             meta = {
@@ -143,6 +143,8 @@ def detect_task(task: Task):
         collate_fn=collate_fn,
     )
 
+    detected_images, empty_images = [], []
+    detected_videos, empty_videos = [], []
     if len(image_dataset):
         print("detecting image")
         detected_images, empty_images = detect_image_task(image_loader)
@@ -154,29 +156,31 @@ def detect_task(task: Task):
     detected = detected_images + detected_videos
     empty = empty_images + empty_videos
 
-    res = requests.post(
-        config.HOST + "/api/section/%s/detected_media" % task.section,
-        data=json.dumps({"media": detected}),
-        headers=headers,
-    )
+    if detected:
+        res = requests.post(
+            config.HOST + "/api/section/%s/schedule_detect" % task.section,
+            data=json.dumps({"media": detected}),
+            headers=headers,
+        )
 
-    if res.status_code != 200:
-        task.tag_as_error()
-        logging.error("%s error when post detected media" % task.basename)
-        logging.error("server message: %s" % res.text)
-        return
+        if res.status_code != 200:
+            task.tag_as_error()
+            logging.error("%s error when post detected media" % task.basename)
+            logging.error("server message: %s" % res.text)
+            return
 
-    res = requests.post(
-        config.HOST + "/api/section/%s/empty_media" % task.section,
-        data=json.dumps({"media": empty}),
-        headers=headers,
-    )
+    if empty:
+        res = requests.post(
+            config.HOST + "/api/section/%s/empty_media" % task.section,
+            data=json.dumps({"media": empty}),
+            headers=headers,
+        )
 
-    if res.status_code != 200:
-        task.tag_as_error()
-        logging.error("%s error when post empty media" % task.basename)
-        logging.error("server message: %s" % res.text)
-        return
+        if res.status_code != 200:
+            task.tag_as_error()
+            logging.error("%s error when post empty media" % task.basename)
+            logging.error("server message: %s" % res.text)
+            return
 
     task.tag_as_detected()
 

@@ -1,9 +1,10 @@
-TASK_DIR = "D:/coding/demo_nas/task"
-DETECTED_TASK_DIR = "D:/coding/demo_nas/detected_task"
-ERROR_TASK_DIR = "D:/coding/demo_nas/error_task"
+TASK_DIR = "D:/perch-mount-system/test_tasks"
+# TASK_DIR = "D:/perch-mount-system/tasks"
+DETECTED_TASK_DIR = "D:/perch-mount-system/detected_tasks"
+ERROR_TASK_DIR = "D:/perch-mount-system/error_tasks"
 
 DETECTIVE_MODEL_PATH = (
-    "D:/coding/python/perch-mount-detective/model/custom_detectivekite.pt"
+    "D:/perch-mount-system/perch-mount-detective/model/custom_detectivekite.pt"
 )
 HOST = "http://127.0.0.1:5000"
 
