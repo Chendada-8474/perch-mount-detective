@@ -12,7 +12,14 @@ from src.task import read_task, Task
 from torch.utils.data import DataLoader
 from collections import defaultdict, Counter
 
-logging.basicConfig(level=logging.DEBUG, filename="log/logging.log", encoding="utf-8")
+
+ROOT = os.path.dirname(__file__)
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    filename=os.path.join(ROOT, "log/logging.log"),
+    encoding="utf-8",
+)
 
 model = torch.hub.load(
     "ultralytics/yolov5",
