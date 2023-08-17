@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 # TASK_DIR = "D:/perch-mount-system/test_tasks"
 TASK_DIR = "D:/perch-mount-system/tasks"
 DETECTED_TASK_DIR = "D:/perch-mount-system/detected_tasks"
@@ -16,6 +18,12 @@ MODEL_CONF = 0.7
 BATCH = 2
 
 MAXIMUN_IND_VID = 3
+
+TODAY = datetime.strftime(datetime.today(), "%Y-%m-%d")
+DETECT_BREAK_TIME = datetime.strptime(
+    "%s 07:00:00" % TODAY, "%Y-%m-%d %H:%M:%S"
+) + timedelta(days=1)
+
 
 TAXON_ORDER_TRANS_CUS_DK = {
     0: 7575,

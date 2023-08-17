@@ -8,6 +8,7 @@ import src.media as media
 import config as config
 import torchvision.transforms as T
 from tqdm import tqdm
+from datetime import datetime
 from src.task import read_task, Task
 from torch.utils.data import DataLoader
 from collections import defaultdict, Counter
@@ -202,6 +203,9 @@ def main():
 
         print(file_name)
         detect_task(task)
+
+        if datetime.now() > config.DETECT_BREAK_TIME:
+            break
 
     print("detect end.")
 
