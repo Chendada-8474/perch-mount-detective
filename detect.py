@@ -5,7 +5,7 @@ import heapq
 import logging
 import requests
 import src.media as media
-import configs.config as config
+import config as config
 import torchvision.transforms as T
 from tqdm import tqdm
 from src.task import read_task, Task

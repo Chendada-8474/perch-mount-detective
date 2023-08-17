@@ -1,6 +1,6 @@
 import os
 import json
-import configs.config as config
+import config as config
 
 # from yolov5.utils.dataloaders import create_dataloader
 

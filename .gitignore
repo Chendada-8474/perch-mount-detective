@@ -137,4 +137,4 @@ mysql.py
 demo_media
 log
 model/
-configs
+config.py
