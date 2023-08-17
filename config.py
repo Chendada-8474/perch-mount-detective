@@ -1,5 +1,5 @@
-TASK_DIR = "D:/perch-mount-system/test_tasks"
-# TASK_DIR = "D:/perch-mount-system/tasks"
+# TASK_DIR = "D:/perch-mount-system/test_tasks"
+TASK_DIR = "D:/perch-mount-system/tasks"
 DETECTED_TASK_DIR = "D:/perch-mount-system/detected_tasks"
 ERROR_TASK_DIR = "D:/perch-mount-system/error_tasks"
 
