@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
-# TASK_DIR = "D:/perch-mount-system/test_tasks"
-TASK_DIR = "D:/perch-mount-system/tasks"
+TASK_DIR = "D:/perch-mount-system/test_tasks"
+# TASK_DIR = "D:/perch-mount-system/tasks"
 DETECTED_TASK_DIR = "D:/perch-mount-system/detected_tasks"
 ERROR_TASK_DIR = "D:/perch-mount-system/error_tasks"
 
@@ -35,7 +35,7 @@ TAXON_ORDER_TRANS_CUS_DK = {
     6: 24167,
     7: 2060,
     8: 20940,
-    9: 30945,
+    9: 30954,
     10: 20550,
     11: 28999,
     12: 29021,

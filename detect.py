@@ -16,10 +16,12 @@ from collections import defaultdict, Counter
 
 ROOT = os.path.dirname(__file__)
 
+FORMAT = "%(asctime)s %(filename)s %(levelname)s:%(message)s"
 logging.basicConfig(
     level=logging.DEBUG,
     filename=os.path.join(ROOT, "log/logging.log"),
     encoding="utf-8",
+    format=FORMAT,
 )
 
 model = torch.hub.load(
@@ -43,7 +45,8 @@ def predict(imgs):
 
 def collate_fn(batch):
     batch = list(filter(lambda x: x[0] is not None, batch))
-    return torch.utils.data.dataloader.default_collate(batch)
+
+    return torch.utils.data.dataloader.default_collate(batch) if batch else [[], []]
 
 
 def detect_image_task(image_loader):
@@ -51,6 +54,10 @@ def detect_image_task(image_loader):
     empty = []
     for imgs, metas in tqdm(image_loader):
         imgs = [T.ToPILImage()(img) for img in imgs]
+
+        if not imgs:
+            continue
+
         results = predict(imgs)
 
         for i, result in enumerate(results):
@@ -87,6 +94,10 @@ def detect_video_task(video_loader):
     empty = []
     for frames, meta in tqdm(video_loader):
         frames = [T.ToPILImage()(frame) for frame in frames]
+
+        if not frames:
+            continue
+
         results = predict(frames)
 
         counter = defaultdict(int)
@@ -134,6 +145,35 @@ def detect_video_task(video_loader):
     return detected, empty
 
 
+def batch_upload(task: Task, data: list, mode="detected"):
+    if mode == "detected":
+        url = config.HOST + "/api/section/%s/schedule_detect" % task.section
+    else:
+        url = config.HOST + "/api/section/%s/empty_media" % task.section
+
+    batch_index = list(range(0, len(data), 500)) + [len(data)]
+
+    for i in range(len(batch_index) - 1):
+        s, e = batch_index[i], batch_index[i + 1]
+
+        batch_data = data[s:e]
+        res = requests.post(
+            url,
+            data=json.dumps({"media": batch_data}),
+            headers=headers,
+        )
+
+        if res.status_code != 200:
+            task.tag_as_error()
+            with open(f"error_{mode}_{task.basename}", "w", encoding="utf-8") as f:
+                json.dump(data[s:], f)
+
+            logging.error(
+                "%s error when post %s media [%s:%s]" % (task.basename, mode, s, e)
+            )
+            return
+
+
 def detect_task(task: Task):
     image_dataset = media.ImageDataset(task.images)
     video_dataset = media.VideoDataset(task.videos)
@@ -141,7 +181,7 @@ def detect_task(task: Task):
     image_loader = DataLoader(
         image_dataset,
         batch_size=config.BATCH,
-        num_workers=2,
+        num_workers=0,
         collate_fn=collate_fn,
     )
 
@@ -165,30 +205,10 @@ def detect_task(task: Task):
     empty = empty_images + empty_videos
 
     if detected:
-        res = requests.post(
-            config.HOST + "/api/section/%s/schedule_detect" % task.section,
-            data=json.dumps({"media": detected}),
-            headers=headers,
-        )
-
-        if res.status_code != 200:
-            task.tag_as_error()
-            logging.error("%s error when post detected media" % task.basename)
-            logging.error("server message: %s" % res.text)
-            return
+        batch_upload(task, detected, mode="detected")
 
     if empty:
-        res = requests.post(
-            config.HOST + "/api/section/%s/empty_media" % task.section,
-            data=json.dumps({"media": empty}),
-            headers=headers,
-        )
-
-        if res.status_code != 200:
-            task.tag_as_error()
-            logging.error("%s error when post empty media" % task.basename)
-            logging.error("server message: %s" % res.text)
-            return
+        batch_upload(task, empty, mode="empty")
 
     task.tag_as_detected()
 
