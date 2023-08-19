@@ -89,8 +89,6 @@ def detect_video_task(video_loader):
         frames = [T.ToPILImage()(frame) for frame in frames]
         results = predict(frames)
 
-        counter = defaultdict(int)
-        species_heap = []
         max_indi = config.MAXIMUN_IND_VID
 
         meta = {
@@ -103,10 +101,12 @@ def detect_video_task(video_loader):
             empty.append(meta)
             continue
 
+        counter = defaultdict(int)
         for result in results:
             for class_, count in Counter(row["class"] for row in result).items():
                 counter[class_] = max(counter[class_], count)
 
+        species_heap = []
         for result in results:
             for row in result:
                 heapq.heappush(species_heap, (-row["confidence"], row["class"]))
