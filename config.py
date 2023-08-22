@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
-TASK_DIR = "D:/perch-mount-system/test_tasks"
-# TASK_DIR = "D:/perch-mount-system/tasks"
+# TASK_DIR = "D:/perch-mount-system/test_tasks"
+TASK_DIR = "D:/perch-mount-system/tasks"
 DETECTED_TASK_DIR = "D:/perch-mount-system/detected_tasks"
 ERROR_TASK_DIR = "D:/perch-mount-system/error_tasks"
 
@@ -15,7 +15,7 @@ VIDEO_EXTS = {"mov", "avi", "mp4", "mpg", "mpeg", "m4v", "wmv", "mkv"}
 
 MODEL_CONF = 0.7
 
-BATCH = 2
+BATCH = 8
 
 MAXIMUN_IND_VID = 3
 
