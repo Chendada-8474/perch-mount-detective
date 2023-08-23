@@ -212,10 +212,21 @@ def detect_task(task: Task):
 
     task.tag_as_detected()
 
-    requests.post(
-        config.HOST
-        + f"/api/schedule_detect_count/section/{task.section}/num_files/{len(detected) + len(empty)}"
-    )
+    # post number of detected images
+    num_processed_images = len(detected_images) + len(empty_images)
+    if num_processed_images:
+        requests.post(
+            config.HOST
+            + f"/api/schedule_detect_count/section/{task.section}/num_files/{num_processed_images}/is_image/1"
+        )
+
+    # post number of detected video
+    num_processed_videos = len(detected_videos) + len(empty_videos)
+    if num_processed_videos:
+        requests.post(
+            config.HOST
+            + f"/api/schedule_detect_count/section/{task.section}/num_files/{num_processed_videos}/is_image/0"
+        )
 
 
 def main():
