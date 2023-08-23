@@ -18,7 +18,7 @@ ROOT = os.path.dirname(__file__)
 
 FORMAT = "%(asctime)s %(filename)s %(levelname)s:%(message)s"
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     filename=os.path.join(ROOT, "log/logging.log"),
     encoding="utf-8",
     format=FORMAT,
@@ -212,8 +212,16 @@ def detect_task(task: Task):
 
     task.tag_as_detected()
 
+    requests.post(
+        config.HOST
+        + f"/api/schedule_detect_count/section/{task.section}/num_files/{len(detected) + len(empty)}"
+    )
+
 
 def main():
+    print("排程辨識開始，請勿關閉此視窗。")
+    logging.info("detect schedule start")
+
     task_paths = os.listdir(config.TASK_DIR)
 
     for file_name in task_paths:
@@ -223,6 +231,7 @@ def main():
 
         print(file_name)
         detect_task(task)
+        logging.info("%s done" % task.basename)
 
         if datetime.now() > config.DETECT_BREAK_TIME:
             break
@@ -231,4 +240,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except:
+        logging.exception("error")
