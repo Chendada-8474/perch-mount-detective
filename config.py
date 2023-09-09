@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
-# TASK_DIR = "D:/perch-mount-system/test_tasks"
-TASK_DIR = "D:/perch-mount-system/tasks"
+TASK_DIR = "D:/perch-mount-system/test_tasks"
+# TASK_DIR = "D:/perch-mount-system/tasks"
 DETECTED_TASK_DIR = "D:/perch-mount-system/detected_tasks"
 ERROR_TASK_DIR = "D:/perch-mount-system/error_tasks"
 
@@ -24,6 +24,8 @@ DETECT_BREAK_TIME = datetime.strptime(
     "%s 07:00:00" % TODAY, "%Y-%m-%d %H:%M:%S"
 ) + timedelta(days=1)
 
+DETECT_RUN_HOURS = 9
+WEEKEND_RUN_HOURS = 13
 
 TAXON_ORDER_TRANS_CUS_DK = {
     0: 7575,

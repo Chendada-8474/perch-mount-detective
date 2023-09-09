@@ -8,7 +8,7 @@ import src.media as media
 import config as config
 import torchvision.transforms as T
 from tqdm import tqdm
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from src.task import read_task, Task
 from torch.utils.data import DataLoader
 from collections import defaultdict, Counter
@@ -32,6 +32,12 @@ model = torch.hub.load(
 model.conf = 0.5
 
 headers = {"Content-type": "application/json", "Accept": "text/plain"}
+TZ = timezone(timedelta(hours=8))
+
+
+def get_run_hours():
+    week_day = datetime.now(tz=TZ).weekday()
+    return config.WEEKEND_RUN_HOURS if week_day >= 5 else config.DETECT_RUN_HOURS
 
 
 def class_to_taxon_order(class_: int):
@@ -234,6 +240,9 @@ def main():
     print("排程辨識開始，請勿關閉此視窗。")
     logging.info("detect schedule start")
 
+    run_hours = timedelta(hours=get_run_hours())
+    start_time = datetime.now()
+
     task_paths = os.listdir(config.TASK_DIR)
 
     for file_name in task_paths:
@@ -245,7 +254,7 @@ def main():
         detect_task(task)
         logging.info("%s done" % task.basename)
 
-        if datetime.now() > config.DETECT_BREAK_TIME:
+        if datetime.now() - start_time > run_hours:
             break
 
     print("detect end.")
