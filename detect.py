@@ -108,6 +108,7 @@ def detect_video_task(video_loader):
             "path": meta["path"][0],
         }
 
+        results = [row for row in results if row]
         if not results:
             empty.append(meta)
             continue
