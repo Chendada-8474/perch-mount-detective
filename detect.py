@@ -258,6 +258,7 @@ def main():
             break
 
     print("detect end.")
+    logging.info("detect end")
 
 
 if __name__ == "__main__":
