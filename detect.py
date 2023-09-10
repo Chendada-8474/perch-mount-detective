@@ -37,7 +37,7 @@ TZ = timezone(timedelta(hours=8))
 
 def get_run_hours():
     week_day = datetime.now(tz=TZ).weekday()
-    return config.WEEKEND_RUN_HOURS if week_day >= 5 else config.DETECT_RUN_HOURS
+    return config.WEEKEND_RUN_HOURS if 4 <= week_day < 6 else config.DETECT_RUN_HOURS
 
 
 def class_to_taxon_order(class_: int):
