@@ -152,35 +152,6 @@ def detect_video_task(video_loader):
     return detected, empty
 
 
-def batch_upload(task: Task, data: list, mode="detected"):
-    if mode == "detected":
-        url = config.HOST + "/api/section/%s/schedule_detect" % task.section
-    else:
-        url = config.HOST + "/api/section/%s/empty_media" % task.section
-
-    batch_index = list(range(0, len(data), 500)) + [len(data)]
-
-    for i in range(len(batch_index) - 1):
-        s, e = batch_index[i], batch_index[i + 1]
-
-        batch_data = data[s:e]
-        res = requests.post(
-            url,
-            data=json.dumps({"media": batch_data}),
-            headers=headers,
-        )
-
-        if res.status_code != 200:
-            task.tag_as_error()
-            with open(f"error_{mode}_{task.basename}", "w", encoding="utf-8") as f:
-                json.dump(data[s:], f)
-
-            logging.error(
-                "%s error when post %s media [%s:%s]" % (task.basename, mode, s, e)
-            )
-            return
-
-
 def save_results_to_json(results: dict, path: str):
     with open(path, "w") as f:
         json.dump(results, f)
