@@ -4,8 +4,8 @@ import torch
 import heapq
 import logging
 import requests
+import config
 import src.media as media
-import config as config
 import torchvision.transforms as T
 from tqdm import tqdm
 from datetime import datetime, timedelta, timezone
@@ -181,7 +181,7 @@ def batch_upload(task: Task, data: list, mode="detected"):
             return
 
 
-def detect_task(task: Task):
+def detect_task(task: Task) -> dict:
     image_dataset = media.ImageDataset(task.images)
     video_dataset = media.VideoDataset(task.videos)
 
@@ -211,29 +211,25 @@ def detect_task(task: Task):
     detected = detected_images + detected_videos
     empty = empty_images + empty_videos
 
-    if detected:
-        batch_upload(task, detected, mode="detected")
+    results = {}
+    results["section"] = task.section
+    results["detected"] = detected
+    results["empty"] = empty
 
-    if empty:
-        batch_upload(task, empty, mode="empty")
+    return results
 
-    task.tag_as_detected()
+    # if detected:
+    #     batch_upload(task, detected, mode="detected")
 
-    # post number of detected images
-    num_processed_images = len(detected_images) + len(empty_images)
-    if num_processed_images:
-        requests.post(
-            config.HOST
-            + f"/api/schedule_detect_count/section/{task.section}/num_files/{num_processed_images}/is_image/1"
-        )
+    # if empty:
+    #     batch_upload(task, empty, mode="empty")
 
-    # post number of detected video
-    num_processed_videos = len(detected_videos) + len(empty_videos)
-    if num_processed_videos:
-        requests.post(
-            config.HOST
-            + f"/api/schedule_detect_count/section/{task.section}/num_files/{num_processed_videos}/is_image/0"
-        )
+    # task.tag_as_detected()
+
+    # num_processed_images = len(detected_images) + len(empty_images)
+    # num_processed_videos = len(detected_videos) + len(empty_videos)
+    # post_processed_count(task.section, num_processed_images, True)
+    # post_processed_count(task.section, num_processed_videos, False)
 
 
 def main():
@@ -251,7 +247,7 @@ def main():
         task = read_task(task_path)
 
         print(file_name)
-        detect_task(task)
+        results = detect_task(task)
         logging.info("%s done" % task.basename)
 
         if datetime.now() - start_time > run_hours:

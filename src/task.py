@@ -1,6 +1,6 @@
 import os
 import json
-import config as config
+import config
 
 # from yolov5.utils.dataloaders import create_dataloader
 
@@ -11,6 +11,7 @@ class Task:
     def __init__(self, path: str) -> None:
         self.path = path
         self._json = self._read_json(path)
+        self.section = self._json["section"]
         self.images = self._get_image_task(self._json["media"])
         self.videos = self._get_video_task(self._json["media"])
 
@@ -56,7 +57,7 @@ def read_task(path: str) -> Task:
 
 
 if __name__ == "__main__":
-    path = "D:/coding/demo_nas/task/測試棲架_2023-09-22.json"
+    path = "D:/coding/demo_nas/task/萬巒怡如的田_2023-12-10.json"
     task = read_task(path)
 
-    print(task.media_path)
+    print(task._json)
