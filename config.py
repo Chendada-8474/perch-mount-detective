@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 # TASK_DIR = "D:/perch-mount-system/test_tasks"
 TASK_DIR = "D:/perch-mount-system/tasks"
 DETECTED_TASK_DIR = "D:/perch-mount-system/detected_tasks"
+TASK_TRASH_CAN = "D:/perch-mount-system/task_trash_can"
 ERROR_TASK_DIR = "D:/perch-mount-system/error_tasks"
 
 DETECTIVE_MODEL_PATH = (

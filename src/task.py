@@ -22,7 +22,7 @@ class Task:
         return media
 
     def tag_as_detected(self):
-        des_path = os.path.join(config.DETECTED_TASK_DIR, self.basename)
+        des_path = os.path.join(config.TASK_TRASH_CAN, self.basename)
         os.rename(self.path, des_path)
 
     def tag_as_error(self):

@@ -181,6 +181,11 @@ def batch_upload(task: Task, data: list, mode="detected"):
             return
 
 
+def save_results_to_json(results: dict, path: str):
+    with open(path, "w") as f:
+        json.dump(results, f)
+
+
 def detect_task(task: Task) -> dict:
     image_dataset = media.ImageDataset(task.images)
     video_dataset = media.VideoDataset(task.videos)
@@ -218,19 +223,6 @@ def detect_task(task: Task) -> dict:
 
     return results
 
-    # if detected:
-    #     batch_upload(task, detected, mode="detected")
-
-    # if empty:
-    #     batch_upload(task, empty, mode="empty")
-
-    # task.tag_as_detected()
-
-    # num_processed_images = len(detected_images) + len(empty_images)
-    # num_processed_videos = len(detected_videos) + len(empty_videos)
-    # post_processed_count(task.section, num_processed_images, True)
-    # post_processed_count(task.section, num_processed_videos, False)
-
 
 def main():
     print("排程辨識開始，請勿關閉此視窗。")
@@ -248,6 +240,7 @@ def main():
 
         print(file_name)
         results = detect_task(task)
+        save_results_to_json(results, config.DETECTED_TASK_DIR)
         logging.info("%s done" % task.basename)
 
         if datetime.now() - start_time > run_hours:
