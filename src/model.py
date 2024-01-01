@@ -40,6 +40,7 @@ def detect_image_task(image_loader):
                 "medium_id": metas["medium_id"][i],
                 "medium_datetime": metas["medium_datetime"][i],
                 "path": metas["path"][i],
+                "nas_path": metas["nas_path"][i],
             }
 
             if not result:
@@ -79,6 +80,7 @@ def detect_video_task(video_loader):
             "medium_id": meta["medium_id"][0],
             "medium_datetime": meta["medium_datetime"][0],
             "path": meta["path"][0],
+            "nas_path": meta["nas_path"][0],
         }
 
         results = [row for row in results if row]

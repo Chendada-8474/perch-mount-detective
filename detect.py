@@ -68,7 +68,7 @@ def to_results(detected: list, empty: list, task: Task) -> dict:
 
 
 def save_results_to_json(results: dict, path: str):
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf-8") as f:
         json.dump(results, f)
 
 
@@ -88,11 +88,13 @@ def main():
 
         task = read_task(task_path)
 
+        print(task._json)
+
         image_loader, video_loader = load_dataset(task)
         detected, empty = detect_task(image_loader, video_loader)
         results = to_results(detected, empty, task)
 
-        save_results_to_json(results, config.DETECTED_TASK_DIR)
+        save_results_to_json(results, os.path.join(config.WAIT_UPLOADED_DIR, file_name))
         logging.info("%s done" % task.basename)
 
         if datetime.now() - start_time > run_hours:

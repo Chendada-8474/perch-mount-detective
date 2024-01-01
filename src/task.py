@@ -11,7 +11,6 @@ class Task:
     def __init__(self, path: str) -> None:
         self.path = path
         self._json = self._read_json(path)
-        self.section = self._json["section"]
         self.images = self._get_image_task(self._json["media"])
         self.videos = self._get_video_task(self._json["media"])
 
