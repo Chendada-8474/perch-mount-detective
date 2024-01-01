@@ -1,19 +1,11 @@
 from datetime import datetime, timedelta
 
-# TASK_DIR = "D:/perch-mount-system/tasks"
-# WAIT_UPLOADED_DIR = "D:/perch-mount-system/wait-upload-tasks"
-# TASK_TRASH_CAN = "D:/perch-mount-system/task-trash-can"
-# ERROR_TASK_DIR = "D:/perch-mount-system/error_tasks"
-TASK_DIR = "D:/coding/demo_nas/tasks"
-WAIT_UPLOADED_DIR = "D:/coding/demo_nas/wait-upload-tasks"
-TASK_TRASH_CAN = "D:/coding/demo_nas/task-trash-can"
-ERROR_TASK_DIR = "D:/coding/demo_nas/error_tasks"
+TASK_DIR = "D:/perch-mount-system/tasks"
+WAIT_UPLOADED_DIR = "D:/perch-mount-system/wait-upload-tasks"
+TASK_TRASH_CAN = "D:/perch-mount-system/task-trash-can"
+ERROR_TASK_DIR = "D:/perch-mount-system/error_tasks"
 
-DETECTIVE_MODEL_PATH = (
-    "D:/perch-mount-system/perch-mount-detective/model/custom_detectivekite.pt"
-)
 DETECTIVE_MODEL_PATH = "model/custom_detectivekite.pt"
-HOST = "http://127.0.0.1:5000"
 
 IMAGE_EXTS = {"bmp", "jpg", "jpeg", "png", "tif", "tiff", "dng"}
 VIDEO_EXTS = {"mov", "avi", "mp4", "mpg", "mpeg", "m4v", "wmv", "mkv"}
