@@ -17,9 +17,6 @@ BATCH = 8
 MAXIMUN_IND_VID = 3
 
 TODAY = datetime.strftime(datetime.today(), "%Y-%m-%d")
-DETECT_BREAK_TIME = datetime.strptime(
-    "%s 07:00:00" % TODAY, "%Y-%m-%d %H:%M:%S"
-) + timedelta(days=1)
 
 DETECT_RUN_HOURS = 9
 WEEKEND_RUN_HOURS = 13
