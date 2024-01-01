@@ -1,6 +1,6 @@
 import os
 import json
-import config as config
+import config
 
 # from yolov5.utils.dataloaders import create_dataloader
 
@@ -21,7 +21,7 @@ class Task:
         return media
 
     def tag_as_detected(self):
-        des_path = os.path.join(config.DETECTED_TASK_DIR, self.basename)
+        des_path = os.path.join(config.TASK_TRASH_CAN, self.basename)
         os.rename(self.path, des_path)
 
     def tag_as_error(self):
@@ -56,7 +56,7 @@ def read_task(path: str) -> Task:
 
 
 if __name__ == "__main__":
-    path = "D:/coding/demo_nas/task/測試棲架_2023-09-22.json"
+    path = "D:/coding/demo_nas/task/萬巒怡如的田_2023-12-10.json"
     task = read_task(path)
 
-    print(task.media_path)
+    print(task._json)

@@ -1,14 +1,11 @@
 from datetime import datetime, timedelta
 
-# TASK_DIR = "D:/perch-mount-system/test_tasks"
 TASK_DIR = "D:/perch-mount-system/tasks"
-DETECTED_TASK_DIR = "D:/perch-mount-system/detected_tasks"
+WAIT_UPLOADED_DIR = "D:/perch-mount-system/wait-upload-tasks"
+TASK_TRASH_CAN = "D:/perch-mount-system/task-trash-can"
 ERROR_TASK_DIR = "D:/perch-mount-system/error_tasks"
 
-DETECTIVE_MODEL_PATH = (
-    "D:/perch-mount-system/perch-mount-detective/model/custom_detectivekite.pt"
-)
-HOST = "http://127.0.0.1:5000"
+DETECTIVE_MODEL_PATH = "model/custom_detectivekite.pt"
 
 IMAGE_EXTS = {"bmp", "jpg", "jpeg", "png", "tif", "tiff", "dng"}
 VIDEO_EXTS = {"mov", "avi", "mp4", "mpg", "mpeg", "m4v", "wmv", "mkv"}
@@ -20,9 +17,6 @@ BATCH = 8
 MAXIMUN_IND_VID = 3
 
 TODAY = datetime.strftime(datetime.today(), "%Y-%m-%d")
-DETECT_BREAK_TIME = datetime.strptime(
-    "%s 07:00:00" % TODAY, "%Y-%m-%d %H:%M:%S"
-) + timedelta(days=1)
 
 DETECT_RUN_HOURS = 9
 WEEKEND_RUN_HOURS = 13
