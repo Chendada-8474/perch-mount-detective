@@ -1,17 +1,13 @@
 import os
 import json
 import torch
-import heapq
 import logging
 import config
 import src.media as media
-import torchvision.transforms as T
-from tqdm import tqdm
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from torch.utils.data import DataLoader
-from collections import defaultdict, Counter
 from src.utils import get_run_hours
-from src.model import model, detect_image_task, detect_video_task
+from src.model import detect_image_task, detect_video_task
 from src.task import read_task, Task
 
 ROOT = os.path.dirname(__file__)
