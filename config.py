@@ -1,9 +1,13 @@
 from datetime import datetime, timedelta
 
-TASK_DIR = "D:/perch-mount-system/tasks"
-WAIT_UPLOADED_DIR = "D:/perch-mount-system/wait-upload-tasks"
-TASK_TRASH_CAN = "D:/perch-mount-system/task-trash-can"
-ERROR_TASK_DIR = "D:/perch-mount-system/error_tasks"
+TASK_DIR = "D:/coding/demo_nas/tasks"
+WAIT_UPLOADED_DIR = "D:/coding/demo_nas/wait-upload-tasks"
+TASK_TRASH_CAN = "D:/coding/demo_nas/task-trash-can"
+ERROR_TASK_DIR = "D:/coding/demo_nas/error_tasks"
+# TASK_DIR = "D:/perch-mount-system/tasks"
+# WAIT_UPLOADED_DIR = "D:/perch-mount-system/wait-upload-tasks"
+# TASK_TRASH_CAN = "D:/perch-mount-system/task-trash-can"
+# ERROR_TASK_DIR = "D:/perch-mount-system/error_tasks"
 
 DETECTIVE_MODEL_PATH = "model/custom_detectivekite.pt"
 
